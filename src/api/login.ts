@@ -28,7 +28,7 @@ export const loginCredentials = async (baseURL: string, username: string, passwo
 
     const instanceURL = checkResponse.headers.get("location") || "";
 
-    const tokenRequest = new Request(baseURL, `/${instanceURL}/login/`);
+    const tokenRequest = new Request(baseURL.endsWith("index.php") ? baseURL.slice(0, -10) : baseURL, `/${instanceURL}/login/`);
     const tokenResponse = await tokenRequest.send();
     const cookies = parseCookies(tokenResponse.headers);
 
