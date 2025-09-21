@@ -3,6 +3,7 @@ import { Profile } from "~/models/profile";
 import { decodeProfile } from "~/decoders/profile";
 import * as cheerio from "cheerio";
 import { Request } from "~/core/request";
+import { parse } from "node-html-parser";
 
 export const getProfile = async (session: Session): Promise<Profile> => {
     if (!session.id) throw new Error("Session cookie is not defined ! You must login first.");
@@ -26,8 +27,13 @@ export const getProfile = async (session: Session): Promise<Profile> => {
     const text = buffer.toString("latin1");
 
     try {
-        const $profile_response = cheerio.load(text);
-        return decodeProfile($profile_response);
+        // On parse le HTML en DOM-like object
+        const root = parse(text);
+
+        // decodeProfile prend le HTML root ou directement le string (selon ta version)
+        // Passe le texte brut si decodeProfile attend un HTMLElement du navigateur
+        //@ts-ignore
+        return decodeProfile(root);
     } catch (error) {
         throw new Error(`Failed to parse the profile: ${error}`);
     }
