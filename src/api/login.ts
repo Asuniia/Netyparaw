@@ -1,7 +1,7 @@
 import { Request } from "~/core/request";
 import type { Session } from "~/models";
 import { regex } from "~/const/regex";
-import * as cheerio from "cheerio";
+import parse from "node-html-parser";
 
 function parseCookies(headers: Headers): string[] {
     const raw = headers.get("set-cookie");
@@ -46,8 +46,8 @@ export const loginCredentials = async (baseURL: string, username: string, passwo
     if (!tokenCsrfMatch) throw new Error("Failed to get CSRF token");
     const tokenCsrf = tokenCsrfMatch[1];
 
-    const $ = cheerio.load(tokenResponseContent);
-    const formUrl = $("form").attr("action");
+    const root = parse(tokenResponseContent);
+    const formUrl = root.querySelector("form")?.getAttribute("action");
     if (!formUrl) throw new Error("Failed to get form URL");
 
     const form = new URLSearchParams();

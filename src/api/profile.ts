@@ -1,7 +1,6 @@
 import { Session } from "~/models";
 import { Profile } from "~/models/profile";
 import { decodeProfile } from "~/decoders/profile";
-import * as cheerio from "cheerio";
 import { Request } from "~/core/request";
 import { parse } from "node-html-parser";
 
