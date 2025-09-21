@@ -58,68 +58,6 @@ declare const planningFromWeek: (session: Session, years: string, weekNumber: st
     slots: ReadonlyArray<PlanningItem>;
 }>>;
 
-type Grade = Readonly<{
-    teacher_name: string;
-    teacher_initials: string;
-    grade_type: string;
-    subject_name?: string;
-    subject_id?: number;
-    date: Date;
-    name: string;
-    coefficient: number;
-    grade?: number;
-    absent?: boolean;
-    absence_reason?: string;
-}>;
-
-type Report = Readonly<{
-    session: ReportSessionDictionary;
-    session_list: Array<ReportSessionOption>;
-}>;
-type ReportSession = Readonly<{
-    average?: number;
-    group_average?: number;
-    group_average_max?: number;
-    group_average_min?: number;
-    registration_id: number;
-    student_id: number;
-    subject_list: Array<ReportSubjectResult>;
-    teacher_comment?: string;
-}>;
-interface ReportSessionDictionary {
-    [Key: number]: ReportSession;
-}
-type ReportSessionOption = Readonly<{
-    name: string;
-    session_code: number;
-    session_id: number;
-}>;
-type ReportSubjectDetails = Readonly<{
-    average?: number;
-    grades: Array<Grade>;
-    group_average?: number;
-    group_average_max?: number;
-    group_average_min?: number;
-    subject_coefficient: number;
-    subject_name: string;
-    teacher_comment?: string;
-}>;
-type ReportSubjectResult = Readonly<{
-    average?: number;
-    coefficient: number;
-    group_average?: number;
-    group_average_max?: number;
-    group_average_min?: number;
-    registration_id: number;
-    student_id: number;
-    subject_id: number;
-    subject_name: string;
-    teacher_comment?: string;
-}>;
-
-declare const report: (session: Session) => Promise<Report>;
-declare const reportSubjectDetails: (session: Session, subject: ReportSubjectResult, sessionId: number) => Promise<ReportSubjectDetails>;
-
 type Profile = Readonly<{
     /**
      * First name of the profile.
@@ -181,4 +119,4 @@ type Profile = Readonly<{
 
 declare const getProfile: (session: Session) => Promise<Profile>;
 
-export { type Session, getProfile, loginCookie, loginCredentials, planningFromDay, planningFromWeek, report, reportSubjectDetails };
+export { type Session, getProfile, loginCookie, loginCredentials, planningFromDay, planningFromWeek };
